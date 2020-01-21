@@ -40,11 +40,12 @@ func main() {
 		fmt.Printf("readlog err: %v", err)
 	}
 	allnumbers := stddeviation(slicelog(file))
-	fmt.Printf("Todays standard deviation: -> %.2f\n", allnumbers.Deviation)
-	fmt.Printf("Colection average: ---------> %.2f\n", allnumbers.Average)
-	fmt.Printf("Max interval: --------------> %.2f\n", allnumbers.Max)
-	fmt.Printf("Min interval: --------------> %.2f\n", allnumbers.Min)
-	fmt.Printf("Verified registrations: ----> %d\n", allnumbers.Total)
+	fmt.Println("Todays Basics Statistics")
+	fmt.Printf("Standard deviation: -----> %.2f\n", allnumbers.Deviation)
+	fmt.Printf("Colection average: ------> %.2f\n", allnumbers.Average)
+	fmt.Printf("Max interval: -----------> %.2f\n", allnumbers.Max)
+	fmt.Printf("Min interval: -----------> %.2f\n", allnumbers.Min)
+	fmt.Printf("Verified registrations: -> %d\n", allnumbers.Total)
 }
 
 func readlog(path string) (string, error) {

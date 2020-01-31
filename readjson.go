@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"strconv"
 )
 
 type SQL struct { //sql arguments
@@ -33,4 +34,11 @@ func readJson(path string) (SQL, error) {
 		return accessSql, err
 	}
 	return accessSql, nil
+}
+
+func tapScreen(x, y, delay int) {
+
+	xstring := strconv.Itoa(x)
+	ystring := strconv.Itoa(y)
+	cmd("adb shell input tap "+xstring+" "+ystring, delay, false, true)
 }

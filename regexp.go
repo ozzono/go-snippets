@@ -18,6 +18,7 @@ func init() {
 
 func main() {
 	flag.Parse()
+	exp = "bounds=\"(\\[\\d+,\\d+\\]\\[\\d+,\\d+\\])\" /><node index=\"2\" text=\"DDD + Telefone\""
 	output := myregexp(exp, inputString)
 	if len(output) > 1 {
 		for i := 1; i < len(output); i++ {

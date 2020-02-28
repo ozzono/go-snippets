@@ -6,16 +6,20 @@ import (
 )
 
 func main() {
-	jsontest()
+	jsontest(`{"errorId":0,"taskId":1260524499}`)
+	jsontest(`{"code": "000000","email": "cmoura322@susamicrosys.cf"}`)
 }
 
-func jsontest() {
-	jsonstring := []byte(`{"code": "000000","email": "cmoura322@susamicrosys.cf"}`)
-	values := make(map[string]string)
+func jsontest(data string) {
+	jsonstring := []byte(data)
+	// values := make(map[string]interface{})
+	var response struct { // anti-captcha api response
+		ErrorID int `json:"errorId"`
+		TaskID  int `json:"taskId"`
+	}
 	err := json.Unmarshal(jsonstring, &values)
 	if err != nil {
 		fmt.Printf("Unmarshal error: %v", err)
 	}
-	fmt.Printf("values['code'] : %v\n", values["code"])
-	fmt.Printf("values['email']: %v\n", values["email"])
+	fmt.Printf("converted data: %v\n", values)
 }

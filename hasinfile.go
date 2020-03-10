@@ -50,7 +50,7 @@ func hasInFile() {
 		return
 	}
 	if strings.Contains(filedata, searchitem) {
-		fmt.Printf("[Success] The item '%s' was found within the file '%s'\n", searchitem, filepath)
+		fmt.Printf("[Success] The item '%s' was found within the file\n'%s'\n", searchitem, filepath)
 		return
 	}
 	fmt.Printf("[Fail] The item '%s' was not found within the file '%s'\n", searchitem, filepath)

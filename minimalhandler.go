@@ -30,8 +30,8 @@ func form1(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("marshal err: %v", err)
 	}
-	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(output)
 }
 
@@ -40,8 +40,8 @@ func form2(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("marshal err: %v", err)
 	}
-	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(output)
 }
 
@@ -50,8 +50,8 @@ func form3(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("marshal err: %v", err)
 	}
-	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(output)
 }
 
@@ -60,7 +60,7 @@ func form4(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("marshal err: %v", err)
 	}
-	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(output)
 }

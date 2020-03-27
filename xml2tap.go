@@ -22,7 +22,6 @@ func init() {
 func main() {
 	flag.Parse()
 	if len(input) > 0 {
-		xml2tap(input)
 		x, y := xml2tap(input)
 		fmt.Println("teste")
 		if tap && x != 0 && y != 0 {

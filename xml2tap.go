@@ -23,7 +23,6 @@ func main() {
 	flag.Parse()
 	if len(input) > 0 {
 		x, y := xml2tap(input)
-		fmt.Println("teste")
 		if tap && x != 0 && y != 0 {
 			shell(fmt.Sprintf("adb shell input tap %d %d", x, y))
 			return

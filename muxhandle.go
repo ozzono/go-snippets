@@ -6,31 +6,19 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	form "github.com/synini/ifbra-forms"
+	"google.golang.org/appengine"
 )
-
-func main() {
-	mux := http.NewServeMux()
-
-	index := http.HandlerFunc(indexHandler)
-	form1 := http.HandlerFunc(form1)
-	form2 := http.HandlerFunc(form2)
-	form3 := http.HandlerFunc(form3)
-	form4 := http.HandlerFunc(form4)
-
-	mux.Handle("/", index)
-	mux.Handle("/forms/1", form1)
-	mux.Handle("/forms/2", form2)
-	mux.Handle("/forms/3", form3)
-	mux.Handle("/forms/4", form4)
-
-	log.Println("Listening...")
-	http.ListenAndServe(":8000", mux)
-}
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Handling index page")
 	fmt.Fprint(w, "This is the index page!")
+	fmt.Fprint(w, "Browser thru the forms using the following paths:\n")
+	fmt.Fprint(w, "https://ifbra-forms.appspot.com/forms/1\n")
+	fmt.Fprint(w, "https://ifbra-forms.appspot.com/forms/2\n")
+	fmt.Fprint(w, "https://ifbra-forms.appspot.com/forms/3\n")
+	fmt.Fprint(w, "https://ifbra-forms.appspot.com/forms/4\n")
 }
 
 func form1(w http.ResponseWriter, r *http.Request) {
@@ -75,4 +63,20 @@ func form4(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(output)
+}
+
+func init() {
+	r := mux.NewRouter()
+
+	r.HandleFunc("/", indexHandler).Methods("GET")
+	r.HandleFunc("/form1.json", form1).Methods("GET")
+	r.HandleFunc("/form2.json", form2).Methods("GET")
+	r.HandleFunc("/form3.json", form3).Methods("GET")
+	r.HandleFunc("/form4.json", form4).Methods("GET")
+
+	http.Handle("/", r)
+}
+
+func main() {
+	appengine.Main()
 }

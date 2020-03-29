@@ -22,6 +22,7 @@ func init() {
 func main() {
 	flag.Parse()
 	text := inputString
+	filepath = "/home/hugo/Projects/bf/vtefortaleza/dump.xml"
 	if filepath != "" && len(filepath) > 0 {
 		fmt.Printf("Using content from %s\n", filepath)
 		file, err := readfile(filepath)
@@ -31,6 +32,7 @@ func main() {
 		}
 		text = file
 	}
+	exp = "wprmenu_bar.*?(\\[\\d+,\\d+\\]\\[\\d+,\\d+\\])"
 	output := myregexp(exp, text)
 	if len(output) > 1 {
 		for i := 1; i < len(output); i++ {

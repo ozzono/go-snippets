@@ -12,7 +12,6 @@ import (
 )
 
 func main() {
-	form.Count = 0
 	r := mux.NewRouter()
 	r.HandleFunc("/", indexHandler).Methods("GET")
 	r.HandleFunc("/form1.json", form1).Methods("GET")

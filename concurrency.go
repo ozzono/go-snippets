@@ -11,9 +11,11 @@ var (
 	inner sync.WaitGroup
 )
 
+const count = 4
+
 func main() {
 	clock := time.Now().Unix()
-	for i := 0; i < 3; i++ {
+	for i := 0; i < count; i++ {
 		outer.Add(1)
 		go outerTask(i)
 	}
@@ -23,7 +25,7 @@ func main() {
 
 func outerTask(i int) {
 	defer outer.Done()
-	for j := 0; j < 3; j++ {
+	for j := 0; j < count; j++ {
 		inner.Add(1)
 		go innerTask(i, j)
 	}

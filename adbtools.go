@@ -14,7 +14,8 @@ var (
 )
 
 type device struct {
-	ID string
+	ID  string
+	Log bool
 }
 
 // TODO: Validate the need of the given commands
@@ -26,7 +27,7 @@ func (device *device) Shell(arg string) string {
 	if len(device.ID) > 0 {
 		arg = strings.Replace(arg, "adb", fmt.Sprintf("adb -s %s", device.ID), -1)
 	}
-	if loglvl {
+	if device.Log {
 		log.Println(arg)
 	}
 	return shell(arg)
@@ -98,11 +99,6 @@ func (device *device) ClearApp(app string) error {
 	return fmt.Errorf("Failed to clear %s app data. Output: %s", app, output)
 }
 
-// Loglvl enables the logging of every shell command
-func Loglvl(verbose bool) {
-	loglvl = verbose
-}
-
 func (device *device) InputText(text string, splitted bool) error {
 	if len(text) == 0 {
 		return fmt.Errorf("invalid input; cannot be empty")
@@ -110,8 +106,8 @@ func (device *device) InputText(text string, splitted bool) error {
 	// Fixes whitespace input with adb and shell
 	text = strings.Replace(text, " ", "\\s", -1)
 	if splitted {
-		for _, textRune := range strings.Split(text, "") {
-			device.Shell(fmt.Sprintf("adb shell input text %v", textRune))
+		for i := range text {
+			device.Shell(fmt.Sprintf("adb shell input text %v", text[i]))
 		}
 		return nil
 	}
@@ -129,16 +125,22 @@ func (device *device) PageUp() {
 	device.Shell("adb shell input keyevent 92")
 }
 
-func Devices() []device {
+func Devices() ([]device, error) {
 	output := []device{}
+	count := 0
 	for _, row := range strings.Split(device.Shell("adb devices"), "\n") {
-		if strings.Contains(row, "device") {
-			output = append(output, Device{ID: strings.Split(row, "	")[0]})
+		if strings.HasSuffix(row, "device") {
+			output = append(output, Device{ID: strings.Split(row, "	")[0], Log: false})
+			count++
 		}
 	}
+	if count == 0 {
+		return nil, fmt.Errorf("no devices found")
+	}
+	log.Printf("device count: %d\n", count)
 	return output
 }
 
 func NewDevice(deviceID string) device {
-	return device{ID: deviceID}
+	return device{ID: deviceID, Log: false}
 }

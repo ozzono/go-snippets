@@ -52,6 +52,12 @@ func myregexp(exp, text string) []string {
 	return match
 }
 
+func match(exp, text string) bool {
+	fmt.Println(text)
+	re := regexp.MustCompile(exp)
+	return re.MatchString(text)
+}
+
 func readfile(path string) (string, error) {
 	file, err := ioutil.ReadFile(path)
 	if err != nil {

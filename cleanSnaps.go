@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-	shell.SwitchLogLvl()
 	items := filter(shell.Cmd("snap list --all"))
 	if len(items) > 0 {
 		log.Printf("Removing %d disabled snaps", len(items))

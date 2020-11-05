@@ -36,7 +36,7 @@ func testCase1() {
 }
 
 func nowAsSqlDate() {
-	format := "2006-01-02 15:04:05"
+	format := "2006-01-02" // 15:04:05"
 	t := time.Now().Format(format)
 	fmt.Printf("t: %v\n", t)
 }

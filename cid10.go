@@ -32,12 +32,12 @@ func main() {
 		log.Printf(".GET err: %v", err)
 		return
 	}
-	tables, err := page.Tables()
-	if err != nil {
-		log.Printf("tables() err: %v", err)
-		return
-	}
-	fmt.Println(tables)
+	fmt.Println(page)
+	// tables, err := page.Tables()
+	// if err != nil {
+	// 	log.Printf("tables() err: %v", err)
+	// 	return
+	// }
 }
 
 func WriteToFile(filename string, data string) error {

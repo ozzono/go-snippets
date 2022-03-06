@@ -2,43 +2,32 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
-	"strconv"
+	"log"
 )
 
-type SQL struct { //sql arguments
-	User string
-	Pass string
-	Host string
-	Db   string
-}
-
 func main() {
-	json, err := readJson("samples/origin.json")
+	data, err := readJson("sample.json")
 	if err != nil {
-		fmt.Printf("err: %v", err)
+		log.Printf("err: %v", err)
 		return
 	}
-	fmt.Printf("%#v\n", json)
+	log.Println(data)
+	for key := range data {
+		log.Printf("data[%s]: %v", key, data[key])
+	}
 }
 
-func readJson(path string) (SQL, error) {
-	var accessSql SQL
+func readJson(path string) (map[string]interface{}, error) {
+	var data map[string]interface{}
 	jsonFile, err := ioutil.ReadFile(path)
 	if err != nil {
-		return accessSql, err
+		return nil, err
 	}
-	err = json.Unmarshal([]byte(jsonFile), &accessSql)
+	log.Println(string(jsonFile))
+	err = json.Unmarshal([]byte(jsonFile), &data)
 	if err != nil {
-		return accessSql, err
+		return nil, err
 	}
-	return accessSql, nil
-}
-
-func tapScreen(x, y, delay int) {
-
-	xstring := strconv.Itoa(x)
-	ystring := strconv.Itoa(y)
-	cmd("adb shell input tap "+xstring+" "+ystring, delay, false, true)
+	return data, nil
 }

@@ -60,7 +60,7 @@ func btrWatch() {
 			notify.Push("Battery Alert", fmt.Sprintf("battery has reached %f%s", btrlvl, "%"), "", notificator.UR_CRITICAL)
 			writeToFile(fmt.Sprintf("%s battery level alert: %f%s\n", logPrepend(), btrlvl, "%"))
 		}
-		time.Sleep(time.Duration(10) * time.Second)
+		time.Sleep(time.Minute)
 	}
 }
 

@@ -27,32 +27,40 @@ func init() {
 
 func main() {
 	flag.Parse()
-	b, err := battery.GetAll()
-	if err != nil {
-		log.Panic(err)
-	}
-	btrWatch(*b[0])
+	btrWatch()
 }
 
-func btrWatch(b battery.Battery) {
+func btrWatch() {
 	log.Println("main")
 	log.Println("starting battery watcher")
 	for {
-		btrlvl := math.Round(b.Current / b.Full * 100)
-		state := strings.ToLower(b.State.String())
+		b, err := battery.GetAll()
+		if err != nil {
+			log.Panic(err)
+		}
+		btrlvl := math.Round(b[0].Current / b[0].Full * 100)
+		state := strings.ToLower(b[0].State.String())
+
+		// log.Printf("b[0].State ---------- %v", b[0].State)
+		// log.Printf("b[0].Current -------- %v", b[0].Current)
+		// log.Printf("b[0].Full ----------- %v", b[0].Full)
+		// log.Printf("b[0].Design --------- %v", b[0].Design)
+		// log.Printf("b[0].ChargeRate ----- %v", b[0].ChargeRate)
+		// log.Printf("b[0].Voltage -------- %v", b[0].Voltage)
+		// log.Printf("b[0].DesignVoltage -- %v", b[0].DesignVoltage)
 
 		var notify = notificator.New(notificator.Options{
 			AppName: "Battery Alert",
 		})
 		if state == "discharging" && btrlvl < minThreshHold {
-			notify.Push("Battery Alert", fmt.Sprintf("Discharding battery has reached %f%s", btrlvl, "%"), "", notificator.UR_CRITICAL)
+			notify.Push("Battery Alert", fmt.Sprintf("battery has reached %f%s", btrlvl, "%"), "", notificator.UR_CRITICAL)
 			writeToFile(fmt.Sprintf("%s battery level alert: %f%s\n", logPrepend(), btrlvl, "%"))
 		}
-		if state == "charging" && btrlvl > maxThreshHold {
-			notify.Push("Battery Alert", fmt.Sprintf("Discharding battery has reached %f%s", btrlvl, "%"), "", notificator.UR_CRITICAL)
+		if state != "discharging" && btrlvl > maxThreshHold {
+			notify.Push("Battery Alert", fmt.Sprintf("battery has reached %f%s", btrlvl, "%"), "", notificator.UR_CRITICAL)
 			writeToFile(fmt.Sprintf("%s battery level alert: %f%s\n", logPrepend(), btrlvl, "%"))
 		}
-		time.Sleep(time.Minute)
+		time.Sleep(time.Duration(10) * time.Second)
 	}
 }
 

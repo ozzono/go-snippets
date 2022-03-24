@@ -53,12 +53,12 @@ func btrWatch() {
 			AppName: "Battery Alert",
 		})
 		if state == "discharging" && btrlvl < minThreshHold {
-			notify.Push("Battery Alert", fmt.Sprintf("battery has reached %f%s", btrlvl, "%"), "", notificator.UR_CRITICAL)
-			writeToFile(fmt.Sprintf("%s battery level alert: %f%s\n", logPrepend(), btrlvl, "%"))
+			notify.Push("Battery Alert", fmt.Sprintf("battery has reached %0.f%s", btrlvl, "%"), "", notificator.UR_CRITICAL)
+			writeToFile(fmt.Sprintf("%s battery level alert: %0.f%s\n", logPrepend(), btrlvl, "%"))
 		}
 		if state != "discharging" && btrlvl > maxThreshHold {
-			notify.Push("Battery Alert", fmt.Sprintf("battery has reached %f%s", btrlvl, "%"), "", notificator.UR_CRITICAL)
-			writeToFile(fmt.Sprintf("%s battery level alert: %f%s\n", logPrepend(), btrlvl, "%"))
+			notify.Push("Battery Alert", fmt.Sprintf("battery has reached %0.f%s", btrlvl, "%"), "", notificator.UR_CRITICAL)
+			writeToFile(fmt.Sprintf("%s battery level alert: %0.f%s\n", logPrepend(), btrlvl, "%"))
 		}
 		time.Sleep(time.Minute)
 	}

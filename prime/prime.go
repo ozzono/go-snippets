@@ -3,9 +3,11 @@ package main
 import "fmt"
 
 func main() {
-	for _, i := range []int{-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10} {
+	n := []int{-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	for _, i := range n {
 		fmt.Printf("%02d %s prime\n", i, isPrimeString(i))
 	}
+
 }
 
 func isPrimeString(i int) string {
@@ -29,16 +31,22 @@ func isPrime(i int) bool {
 		*/
 
 	}
-	count := 0
-	for j := 2; j <= i; j++ { // start from 2 because all numbers are divisible by 1
-		count++
+
+	if i%2 == 0 {
+		if i == 2 {
+			return true
+		}
+		return false
+	}
+
+	for j := 3; j <= i; j++ { // start from 2 because all numbers are divisible by 1
 		if i == j {
 			continue // skip comparing the number with itself
 		}
 		if i%j == 0 {
 			return false
 		}
+		j++
 	}
-	fmt.Println(i, "count", count)
 	return true
 }

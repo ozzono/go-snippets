@@ -1,10 +1,27 @@
+/*
+Verify if a number is prime
+Conditions:
+- number divisible by 1 or by itself;
+- must be above 0
+- must be integer
+*/
+
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"time"
+)
 
-const defaultSize = 19
+const (
+	defaultSize = 20000
+	rowSize     = 20
+)
 
 func main() {
+	start := time.Now()
+	log.Println("open the gates")
 	n := []int{}
 	for i := 1; i <= defaultSize; i++ {
 		n = append(n, i)
@@ -20,16 +37,25 @@ func main() {
 		}(n[i])
 	}
 	count := 0
+	pad := len(fmt.Sprint(defaultSize / 10))
+	if pad < 2 {
+		pad = 2
+	}
+	leftPad := "%0" + fmt.Sprint(pad) + "d "
 	for i := 0; i < len(n); i++ {
 		if c := <-control; c != 0 {
 			count++
-			fmt.Printf("%05d ", c)
-			if count%10 == 0 {
-				fmt.Println()
+			fmt.Printf(leftPad, c)
+			if count%rowSize == 0 { // rows with rowSize columns
+				fmt.Println("-", count/rowSize)
 			}
 		}
 	}
-	fmt.Println()
+	if count%rowSize != 0 {
+		fmt.Println("-", count/rowSize+1)
+	}
+	fmt.Println(count, "numbers found")
+	fmt.Printf("%dms\n", time.Now().Sub(start).Milliseconds())
 }
 
 func isPrimeString(i int) string {
@@ -53,8 +79,17 @@ func isPrime(i int) bool {
 		*/
 
 	}
+
+	if i%2 == 0 {
+		if i == 2 {
+			return true
+		}
+		return false
+	}
+
 	control := make(chan bool, i-1)
 	for j := 2; j <= i; j++ { // start from 2 because all numbers are divisible by 1
+
 		go func(j int) {
 			if i == j {
 				// skip comparing the number with itself
@@ -66,8 +101,12 @@ func isPrime(i int) bool {
 			}
 			control <- false
 		}(j)
+		if j > 2 {
+			j++
+		}
 	}
-	for j := 0; j < i-2; j++ {
+
+	for j := 0; j < (i-2)/2; j++ { // subtract one because starting from 2; subract one because skipping i==j
 		if <-control {
 			return false
 		}
